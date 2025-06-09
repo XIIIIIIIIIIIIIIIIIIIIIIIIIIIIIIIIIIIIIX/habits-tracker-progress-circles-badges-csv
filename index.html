@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habitude Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #8A9BFF;
+            --secondary: #FF9E9E;
+            --accent: #80D0C7;
+            --background: #F9F7FF;
+            --card-bg: #FFFFFF;
+            --text: #4A4A6A;
+            --light-text: #A0A0C0;
+            --success: #6DD0A5;
+            --border-radius: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 2.5rem;
+            color: var(--text);
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .add-habit {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+        }
+
+        .add-habit h2 {
+            margin-bottom: 20px;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .form-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        input, button {
+            border: none;
+            border-radius: 50px;
+            padding: 14px 20px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            background: var(--background);
+            color: var(--text);
+            border: 1px solid rgba(138, 155, 255, 0.2);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 155, 255, 0.2);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 14px 30px;
+            box-shadow: 0 4px 10px rgba(138, 155, 255, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(138, 155, 255, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .habits-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .habit-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .habit-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .habit-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .delete-btn {
+            background: none;
+            color: var(--light-text);
+            font-size: 1.2rem;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+
+        .delete-btn:hover {
+            color: var(--secondary);
+            transform: scale(1.1);
+            box-shadow: none;
+        }
+
+        .progress-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 15px 0;
+        }
+
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--background);
+            stroke-width: 8;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            stroke-dasharray: 472;
+            stroke-dashoffset: 472;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .streak {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-top: 5px;
+        }
+
+        .action-btn {
+            background: var(--accent);
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .badges-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .badge i {
+            font-size: 1.2rem;
+        }
+
+        .history-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+        }
+
+        .export-btn {
+            background: var(--success);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes progress-animation {
+            to {
+                stroke-dashoffset: var(--target-offset);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Suivi d'Habitudes</h1>
+        </header>
+
+        <section class="add-habit">
+            <h2>Ajouter une nouvelle habitude</h2>
+            <div class="form-group">
+                <input type="text" id="habit-name" placeholder="Nom de l'habitude">
+                <input type="number" id="habit-target" placeholder="Objectif quotidien" min="1" value="1">
+                <button id="add-habit-btn">Ajouter</button>
+            </div>
+        </section>
+
+        <section class="habits-container" id="habits-container">
+            <!-- Habit cards will be added here dynamically -->
+        </section>
+
+        <section class="badges-section">
+            <h2 class="section-title">Mes badges</h2>
+            <div class="badges-container" id="badges-container">
+                <!-- Badges will be added here dynamically -->
+            </div>
+        </section>
+
+        <section class="history-section">
+            <h2 class="section-title">Historique des habitudes</h2>
+            <button id="export-btn" class="export-btn">Exporter en CSV</button>
+        </section>
+
+        <div class="toast" id="toast">Opération réussie !</div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Elements
+            const habitsContainer = document.getElementById('habits-container');
+            const badgesContainer = document.getElementById('badges-container');
+            const addHabitBtn = document.getElementById('add-habit-btn');
+            const exportBtn = document.getElementById('export-btn');
+            const toast = document.getElementById('toast');
+            
+            // Habit data structure
+            let habits = JSON.parse(localStorage.getItem('habits')) || [];
+            let badges = JSON.parse(localStorage.getItem('badges')) || [];
+            
+            // Initialize
+            renderHabits();
+            renderBadges();
+            
+            // Add new habit
+            addHabitBtn.addEventListener('click', () => {
+                const nameInput = document.getElementById('habit-name');
+                const targetInput = document.getElementById('habit-target');
+                
+                const name = nameInput.value.trim();
+                const target = parseInt(targetInput.value);
+                
+                if (name && target > 0) {
+                    const newHabit = {
+                        id: Date.now(),
+                        name,
+                        target,
+                        completions: {},
+                        streak: 0,
+                        lastCompleted: null
+                    };
+                    
+                    habits.push(newHabit);
+                    saveHabits();
+                    renderHabits();
+                    
+                    nameInput.value = '';
+                    targetInput.value = '1';
+                    
+                    showToast('Habitude ajoutée !');
+                }
+            });
+            
+            // Export to CSV
+            exportBtn.addEventListener('click', () => {
+                exportToCSV();
+                showToast('Historique exporté !');
+            });
+            
+            // Render habit cards
+            function renderHabits() {
+                habitsContainer.innerHTML = '';
+                
+                habits.forEach(habit => {
+                    const today = new Date().toISOString().split('T')[0];
+                    const completedToday = habit.completions[today] || 0;
+                    const progress = Math.min((completedToday / habit.target) * 100, 100);
+                    const progressOffset = 472 - (472 * progress / 100);
+                    
+                    const card = document.createElement('div');
+                    card.className = 'habit-card';
+                    card.innerHTML = `
+                        <div class="habit-header">
+                            <div class="habit-name">${habit.name}</div>
+                            <button class="delete-btn" data-id="${habit.id}">×</button>
+                        </div>
+                        <div class="progress-container">
+                            <svg class="progress-circle" viewBox="0 0 160 160">
+                                <circle class="circle-bg" cx="80" cy="80" r="72"></circle>
+                                <circle class="circle-progress" cx="80" cy="80" r="72" 
+                                    style="--target-offset: ${progressOffset};"></circle>
+                            </svg>
+                            <div class="progress-text">${Math.round(progress)}%</div>
+                        </div>
+                        <div class="streak">Série: ${habit.streak} jours</div>
+                        <button class="action-btn" data-id="${habit.id}">Valider aujourd'hui</button>
+                    `;
+                    
+                    habitsContainer.appendChild(card);
+                    
+                    // Animate progress circle
+                    setTimeout(() => {
+                        const progressCircle = card.querySelector('.circle-progress');
+                        progressCircle.style.animation = `progress-animation 1.2s ease-out forwards`;
+                    }, 100);
+                });
+                
+                // Add event listeners
+                document.querySelectorAll('.action-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(e.target.dataset.id);
+                        completeHabit(id);
+                    });
+                });
+                
+                document.querySelectorAll('.delete-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        const id = parseInt(e.target.dataset.id);
+                        deleteHabit(id);
+                    });
+                });
+            }
+            
+            // Complete habit for today
+            function completeHabit(id) {
+                const habit = habits.find(h => h.id === id);
+                if (!habit) return;
+                
+                const today = new Date().toISOString().split('T')[0];
+                const yesterday = new Date();
+                yesterday.setDate(yesterday.getDate() - 1);
+                const yesterdayStr = yesterday.toISOString().split('T')[0];
+                
+                // Update completions
+                habit.completions[today] = (habit.completions[today] || 0) + 1;
+                
+                // Update streak
+                if (!habit.lastCompleted || habit.lastCompleted === yesterdayStr) {
+                    habit.streak++;
+                } else if (habit.lastCompleted !== today) {
+                    habit.streak = 1;
+                }
+                
+                habit.lastCompleted = today;
+                
+                // Check for badges
+                checkBadges(habit);
+                
+                saveHabits();
+                renderHabits();
+                renderBadges();
+                showToast('Habitude validée !');
+            }
+            
+            // Delete habit
+            function deleteHabit(id) {
+                habits = habits.filter(h => h.id !== id);
+                saveHabits();
+                renderHabits();
+                renderBadges();
+                showToast('Habitude supprimée');
+            }
+            
+            // Badge management
+            function checkBadges(habit) {
+                const badgeLevels = [
+                    { streak: 3, name: "Débutant", icon: "🥉" },
+                    { streak: 7, name: "Intermédiaire", icon: "🥈" },
+                    { streak: 30, name: "Expert", icon: "🥇" },
+                    { streak: 100, name: "Maître", icon: "🏆" }
+                ];
+                
+                badgeLevels.forEach(level => {
+                    if (habit.streak >= level.streak) {
+                        const badgeId = `${habit.id}-${level.streak}`;
+                        
+                        if (!badges.some(b => b.id === badgeId)) {
+                            badges.push({
+                                id: badgeId,
+                                habitId: habit.id,
+                                habitName: habit.name,
+                                level: level.name,
+                                icon: level.icon,
+                                date: new Date().toISOString()
+                            });
+                            saveBadges();
+                            showToast(`Badge débloqué: ${level.name} !`);
+                        }
+                    }
+                });
+            }
+            
+            // Render badges
+            function renderBadges() {
+                badgesContainer.innerHTML = '';
+                
+                if (badges.length === 0) {
+                    badgesContainer.innerHTML = '<p>Aucun badge obtenu pour le moment</p>';
+                    return;
+                }
+                
+                badges.forEach(badge => {
+                    const habit = habits.find(h => h.id === badge.habitId);
+                    if (!habit) return;
+                    
+                    const badgeEl = document.createElement('div');
+                    badgeEl.className = 'badge';
+                    badgeEl.innerHTML = `
+                        <i>${badge.icon}</i>
+                        <div>
+                            <div>${badge.level}</div>
+                            <div style="font-size:0.8em">${habit.name}</div>
+                        </div>
+                    `;
+                    
+                    badgesContainer.appendChild(badgeEl);
+                });
+            }
+            
+            // Export to CSV
+            function exportToCSV() {
+                let csvContent = "Habitude,Date,Completions\n";
+                
+                habits.forEach(habit => {
+                    Object.entries(habit.completions).forEach(([date, count]) => {
+                        csvContent += `"${habit.name}",${date},${count}\n`;
+                    });
+                });
+                
+                const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+                const url = URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = `habitudes_${new Date().toISOString().split('T')[0]}.csv`;
+                link.click();
+            }
+            
+            // Show toast notification
+            function showToast(message) {
+                toast.textContent = message;
+                toast.classList.add('show');
+                
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 3000);
+            }
+            
+            // Save data to localStorage
+            function saveHabits() {
+                localStorage.setItem('habits', JSON.stringify(habits));
+            }
+            
+            function saveBadges() {
+                localStorage.setItem('badges', JSON.stringify(badges));
+            }
+        });
+    </script>
+</body>
+</html>
