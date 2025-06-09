@@ -1,0 +1,274 @@
+:root {
+            --primary: #8A9BFF;
+            --secondary: #FF9E9E;
+            --accent: #80D0C7;
+            --background: #F9F7FF;
+            --card-bg: #FFFFFF;
+            --text: #4A4A6A;
+            --light-text: #A0A0C0;
+            --success: #6DD0A5;
+            --border-radius: 24px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background);
+            color: var(--text);
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px 0;
+        }
+
+        h1 {
+            font-weight: 300;
+            font-size: 2.5rem;
+            color: var(--text);
+            letter-spacing: 1px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .add-habit {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+        }
+
+        .add-habit h2 {
+            margin-bottom: 20px;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .form-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        input, button {
+            border: none;
+            border-radius: 50px;
+            padding: 14px 20px;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+            background: var(--background);
+            color: var(--text);
+            border: 1px solid rgba(138, 155, 255, 0.2);
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(138, 155, 255, 0.2);
+        }
+
+        button {
+            background: var(--primary);
+            color: white;
+            cursor: pointer;
+            font-weight: 700;
+            padding: 14px 30px;
+            box-shadow: 0 4px 10px rgba(138, 155, 255, 0.3);
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(138, 155, 255, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .habits-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        .habit-card {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .habit-header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .habit-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .delete-btn {
+            background: none;
+            color: var(--light-text);
+            font-size: 1.2rem;
+            padding: 5px;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: none;
+        }
+
+        .delete-btn:hover {
+            color: var(--secondary);
+            transform: scale(1.1);
+            box-shadow: none;
+        }
+
+        .progress-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            margin: 15px 0;
+        }
+
+        .progress-circle {
+            width: 100%;
+            height: 100%;
+        }
+
+        .circle-bg {
+            fill: none;
+            stroke: var(--background);
+            stroke-width: 8;
+        }
+
+        .circle-progress {
+            fill: none;
+            stroke: var(--primary);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            stroke-dasharray: 472;
+            stroke-dashoffset: 472;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .streak {
+            font-size: 0.9rem;
+            color: var(--light-text);
+            margin-top: 5px;
+        }
+
+        .action-btn {
+            background: var(--accent);
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .badges-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+        }
+
+        .section-title {
+            margin-bottom: 20px;
+            font-weight: 400;
+            color: var(--text);
+        }
+
+        .badges-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .badge {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 50px;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+
+        .badge i {
+            font-size: 1.2rem;
+        }
+
+        .history-section {
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px;
+            box-shadow: 0 8px 20px rgba(138, 155, 255, 0.1);
+        }
+
+        .export-btn {
+            background: var(--success);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--success);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        @keyframes progress-animation {
+            to {
+                stroke-dashoffset: var(--target-offset);
+            }
+        }
